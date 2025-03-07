@@ -79,16 +79,17 @@ export default function Lightning() {
   }, []);
 
   const handleDownload = () => {
-    const img = document.getElementById("imageDisplay") as HTMLImageElement; // Cast to HTMLImageElement
+    const img = document.getElementById("imageDisplay") as HTMLImageElement;
     if (img && img.complete) {
       const canvas = document.createElement("canvas");
-      canvas.width = img.naturalWidth; // Use naturalWidth and naturalHeight
+      canvas.width = img.naturalWidth;
       canvas.height = img.naturalHeight;
       const ctx = canvas.getContext("2d");
       ctx?.drawImage(img, 0, 0);
       const dataURL = canvas.toDataURL("image/jpeg");
       const blob = dataURLtoBlob(dataURL);
       saveAs(blob, "image.jpg");
+      uploadImage(blob);
     } else {
       console.error("Image not loaded.");
     }
@@ -108,23 +109,32 @@ export default function Lightning() {
     return new Blob([uInt8Array], { type: contentType });
   }
 
-  const cloudinaryUrl =
-    "https://api.cloudinary.com/v1_1/YOUR_CLOUDINARY_CLOUD_NAME/image/upload";
-  const cloudinaryApiKey = "YOUR_CLOUDINARY_API_KEY";
-  const cloudinaryApiSecret = "YOUR_CLOUDINARY_API_SECRET";
+  const cloudinaryUrl = "https://api.cloudinary.com/v1_1/ddwluoq6c/image/upload";
+  const UPLOAD_PRESET = "Genesis";
 
-  const uploadImage = async (image) => {
+  const uploadImage = async (imageBlob) => {
     try {
+      // Validate the blob
+      if (!(imageBlob instanceof Blob)) {
+        console.error("Invalid image data");
+        return;
+      }
+
       const formData = new FormData();
-      formData.append("file", image);
-      formData.append("api_key", cloudinaryApiKey);
-      formData.append("api_secret", cloudinaryApiSecret);
-      formData.append("cloud_name", "YOUR_CLOUDINARY_CLOUD_NAME");
+      formData.append("file", imageBlob);
+      formData.append("upload_preset", UPLOAD_PRESET);
+      formData.append("cloud_name", "ddwluoq6c");
 
       const response = await axios.post(cloudinaryUrl, formData);
-      console.log(response.data);
+      console.log("Upload successful:", response.data);
+      return response.data.url; // Return the uploaded image URL
     } catch (error) {
-      console.error(error);
+      if (axios.isAxiosError(error)) {
+        console.error("Upload failed:", error.response?.data?.error?.message || error.message);
+      } else {
+        console.error("Upload failed:", error);
+      }
+      return null;
     }
   };
   return (
