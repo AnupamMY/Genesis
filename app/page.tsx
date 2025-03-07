@@ -109,12 +109,8 @@ export default function Lightning() {
     return new Blob([uInt8Array], { type: contentType });
   }
 
-  const cloudinaryUrl = "https://api.cloudinary.com/v1_1/ddwluoq6c/image/upload";
-  const UPLOAD_PRESET = "Genesis";
-
   const uploadImage = async (imageBlob) => {
     try {
-      // Validate the blob
       if (!(imageBlob instanceof Blob)) {
         console.error("Invalid image data");
         return;
@@ -122,12 +118,10 @@ export default function Lightning() {
 
       const formData = new FormData();
       formData.append("file", imageBlob);
-      formData.append("upload_preset", UPLOAD_PRESET);
-      formData.append("cloud_name", "ddwluoq6c");
 
-      const response = await axios.post(cloudinaryUrl, formData);
+      const response = await axios.post('/api/upload', formData);
       console.log("Upload successful:", response.data);
-      return response.data.url; // Return the uploaded image URL
+      return response.data.url;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Upload failed:", error.response?.data?.error?.message || error.message);
