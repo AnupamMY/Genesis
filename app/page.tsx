@@ -76,7 +76,7 @@ export default function Lightning() {
       prompt: prompt,
       seed: seed ? Number(seed) : Number(randomSeed()),
     });
-  }, []);
+  }, [connection, prompt, seed]);
 
   const handleDownload = () => {
     const img = document.getElementById("imageDisplay") as HTMLImageElement;

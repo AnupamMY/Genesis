@@ -11,10 +11,11 @@ export default function Creations() {
         </div>
       </div>
       <div className="grid border-2 mt-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {imageArray.map((image) => {
+        {imageArray.map((image, index) => {
           return (
-            <div className="grid rounded-lg shadow-md p-8">
+            <div key={index} className="grid rounded-lg shadow-md p-8">
               <Image
+                key={image.src}
                 src={image}
                 alt="Genesis Logo"
                 className="rounded mb-8 mt-8"

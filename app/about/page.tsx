@@ -18,19 +18,19 @@ export default function About() {
         <div className="border rounded-lg shadow-md p-8">
           <h2 className="text-3xl font-bold mb-4">Our Mission</h2>
           <p className="text-lg mb-4">
-            At Genesis, we believe that creativity should be accessible to everyone. That's why we've created a platform that makes it easy for users to generate images without needing any prior experience or technical knowledge.
+            At Genesis, we believe that creativity should be accessible to everyone. That&apos;s why we&apos;ve created a platform that makes it easy for users to generate images without needing any prior experience or technical knowledge.
           </p>
         </div>
         <div className="border rounded-lg shadow-md p-8">
           <h2 className="text-3xl font-bold mb-4">Our Vision</h2>
           <p className="text-lg mb-4">
-            Our team is dedicated to providing the best possible experience for our users. We're constantly working to improve our platform and add new features to make it even easier for users to create amazing images.
+            Our team is dedicated to providing the best possible experience for our users. We&apos;re constantly working to improve our platform and add new features to make it even easier for users to create amazing images.
           </p>
         </div>
         <div className="border rounded-lg shadow-md p-8">
           <h2 className="text-3xl font-bold mb-4">Get Started</h2>
           <p className="text-lg mb-4">
-            Whether you're a professional artist or just starting out, Genesis is the perfect platform for anyone looking to create stunning images. Our platform is free to use, and we offer a range of features and tools to help you get started.
+            Whether you&apos;re a professional artist or just starting out, Genesis is the perfect platform for anyone looking to create stunning images. Our platform is free to use, and we offer a range of features and tools to help you get started.
           </p>
         </div>
       </div>
