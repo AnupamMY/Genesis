@@ -19,6 +19,7 @@ function randomSeed() {
 
 fal.config({
   proxyUrl: "/api/proxy",
+  credentials: process.env.NEXT_PUBLIC_FAL_KEY,
 });
 
 const INPUT_DEFAULTS = {
@@ -45,6 +46,9 @@ export default function Lightning() {
       setImage(URL.createObjectURL(blob));
       setInferenceTime(result.timings.inference);
     },
+    onError: (error) => {
+      console.error("Fal.ai connection error:", error);
+    }
   });
 
   const timer = useRef<any | undefined>(undefined);
@@ -66,16 +70,26 @@ export default function Lightning() {
   };
 
   useEffect(() => {
+    // Set the cookie for fal-app
     if (typeof window !== "undefined") {
-      window.document.cookie = "fal-app=true; path=/; samesite=strict; secure;";
+      document.cookie = "fal-app=true; path=/; samesite=strict; secure;";
+      
+      // For debugging
+      console.log("Cookies set:", document.cookie);
+      console.log("Using FAL_KEY:", process.env.NEXT_PUBLIC_FAL_KEY ? "Available" : "Not available");
     }
-    // initial image
-    connection.send({
-      ...INPUT_DEFAULTS,
-      num_inference_steps: "4",
-      prompt: prompt,
-      seed: seed ? Number(seed) : Number(randomSeed()),
-    });
+    
+    try {
+      // initial image
+      connection.send({
+        ...INPUT_DEFAULTS,
+        num_inference_steps: "4",
+        prompt: prompt,
+        seed: seed ? Number(seed) : Number(randomSeed()),
+      });
+    } catch (error) {
+      console.error("Error sending initial request:", error);
+    }
   }, [connection, prompt, seed]);
 
   const handleDownload = () => {
